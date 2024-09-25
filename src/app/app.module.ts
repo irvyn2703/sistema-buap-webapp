@@ -13,6 +13,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { NavbarComponent } from './partials/navbar/navbar.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { RegistroAdminComponent } from './partials/registro-admin/registro-admin.component';
@@ -40,6 +42,8 @@ import { RegistroMaestrosComponent } from './partials/registro-maestros/registro
     MatRadioModule,
     MatInputModule,
     HttpClientModule,
+    MatSelectModule,
+    MatCheckboxModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
