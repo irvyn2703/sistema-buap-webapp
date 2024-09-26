@@ -44,7 +44,7 @@
         />
       </mat-form-field>
       <div *ngIf="errors.last_name" class="invalid-feedback">
-        {{ errors.name }}
+        {{ errors.last_name }}
       </div>
 
       <mat-form-field class="mat-input" appearance="outline">
@@ -140,7 +140,6 @@
           matInput
           [(ngModel)]="maestro.cubiculo"
           placeholder="Escribe el cubículo"
-          style="text-transform: uppercase"
         />
       </mat-form-field>
       <div *ngIf="errors.cubiculo" class="invalid-feedback">
