@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MaestrosService } from 'src/app/services/maestros.service';
 
 @Component({
   selector: 'app-registro-maestros',
@@ -9,10 +10,15 @@ export class RegistroMaestrosComponent implements OnInit {
   @Input() rol: string = '';
   @Input() datos_user: any = {};
 
+  public hide_1: boolean = false;
+  public hide_2: boolean = false;
+  public inputType_1: string = 'password';
+  public inputType_2: string = 'password';
+
   public maestro: any = {};
   public errors: any = {};
+  public editar: boolean = false;
 
-  //Para el select
   public areas: any[] = [
     { value: '1', viewValue: 'Desarrollo Web' },
     { value: '2', viewValue: 'Programación' },
@@ -34,9 +40,13 @@ export class RegistroMaestrosComponent implements OnInit {
     { value: '10', nombre: 'Administración de S.O.' },
   ];
 
-  constructor() {}
+  constructor(private maestrosService: MaestrosService) {
+    this.maestro.materias_json = [];
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.maestro.materias_json = this.maestro.materias_json || [];
+  }
 
   public checkboxChange(event: any) {
     console.log('Evento: ', event);
@@ -55,5 +65,50 @@ export class RegistroMaestrosComponent implements OnInit {
 
   public revisarSeleccion(nombre: string) {
     return false;
+  }
+
+  showPassword() {
+    if (this.inputType_1 == 'password') {
+      this.inputType_1 = 'text';
+      this.hide_1 = true;
+    } else {
+      this.inputType_1 = 'password';
+      this.hide_1 = false;
+    }
+  }
+
+  showPwdConfirmar() {
+    if (this.inputType_2 == 'password') {
+      this.inputType_2 = 'text';
+      this.hide_2 = true;
+    } else {
+      this.inputType_2 = 'password';
+      this.hide_2 = false;
+    }
+  }
+
+  public regresar() {}
+
+  public actualizar() {}
+
+  public registrar() {
+    console.log(this.maestro);
+    //Validar
+    this.errors = this.maestrosService.validarMaestro(
+      this.maestro,
+      this.editar
+    );
+
+    if (Object.keys(this.errors).length > 0) {
+      return;
+    }
+
+    //Validar la contraseña
+    if (this.maestro.password == this.maestro.confirmar_password) {
+    } else {
+      alert('Las contraseñas no coinciden');
+      this.maestro.password = '';
+      this.maestro.confirmar_password = '';
+    }
   }
 }

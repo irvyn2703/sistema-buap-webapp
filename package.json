@@ -24,6 +24,7 @@
     "bootstrap": "^5.3.3",
     "bootstrap-icons": "^1.11.3",
     "jquery": "^3.7.1",
+    "ngx-mask": "^18.0.0",
     "rxjs": "~7.8.0",
     "sistema-buap-webapp": "file:",
     "tslib": "^2.3.0",
