@@ -9,7 +9,6 @@
           >
         </div>
       </div>
-      <!-- TODO: Aquí van todos los inputs para el formulario del maestro -->
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>ID de trabajador</mat-label>
         <input
@@ -97,9 +96,8 @@
         <input
           matInput
           [(ngModel)]="maestro.telefono"
-          mask="(000) 000-0000"
+          type="number"
           placeholder="Escribe teléfono"
-          inputmode="numeric"
         />
       </mat-form-field>
       <div *ngIf="errors.telefono" class="invalid-feedback">
@@ -112,6 +110,7 @@
           matInput
           [matDatepicker]="picker"
           [(ngModel)]="maestro.fecha_nacimiento"
+          (focus)="picker.open()"
         />
         <mat-datepicker-toggle
           matIconSuffix

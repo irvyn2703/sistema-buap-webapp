@@ -9,7 +9,6 @@
           >
         </div>
       </div>
-      <!-- Aquí empiezan los campos del formulario -->
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>ID de administrador</mat-label>
         <input
@@ -99,6 +98,7 @@
           [(ngModel)]="admin.telefono"
           mask="(000) 000-0000"
           placeholder="Escribe teléfono"
+          type="number"
         />
       </mat-form-field>
       <div *ngIf="errors.telefono" class="invalid-feedback">

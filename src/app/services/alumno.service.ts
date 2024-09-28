@@ -1,46 +1,48 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { ValidatorService } from './tools/validator.service';
 import { ErrorsService } from './tools/errors.service';
 
 @Injectable({
   providedIn: 'root',
 })
-export class AdministradoresService {
+export class AlumnoService {
   constructor(
     private http: HttpClient,
     private validatorService: ValidatorService,
     private errorService: ErrorsService
   ) {}
 
-  public esquemaAdmin() {
+  // Esquema para el alumno
+  public esquemaAlumno() {
     return {
-      rol: '',
-      clave_admin: '',
-      first_name: '',
+      clave: '',
+      name: '',
       last_name: '',
       email: '',
       password: '',
       confirmar_password: '',
-      telefono: '',
+      fecha_nacimiento: '',
+      curp: '',
       rfc: '',
-      edad: '',
+      edad: null,
+      telefono: '',
       ocupacion: '',
     };
   }
 
-  //Validación para el formulario
-  public validarAdmin(data: any, editar: boolean) {
-    console.log('Validando admin... ', data);
+  // Validación para el formulario de alumno
+  public validarAlumno(data: any, editar: boolean) {
+    console.log('Validando alumno... ', data);
 
     let error: any = [];
 
-    if (!this.validatorService.required(data['clave_admin'])) {
-      error['clave_admin'] = this.errorService.required;
+    if (!this.validatorService.required(data['clave'])) {
+      error['clave'] = this.errorService.required;
     }
 
-    if (!this.validatorService.required(data['first_name'])) {
-      error['first_name'] = this.errorService.required;
+    if (!this.validatorService.required(data['name'])) {
+      error['name'] = this.errorService.required;
     }
 
     if (!this.validatorService.required(data['last_name'])) {
@@ -65,14 +67,28 @@ export class AdministradoresService {
       }
     }
 
+    if (!this.validatorService.required(data['curp'])) {
+      error['curp'] = this.errorService.required;
+    } else if (!this.validatorService.min(data['curp'], 18)) {
+      error['curp'] = 'La CURP debe tener exactamente 18 caracteres';
+    } else if (!this.validatorService.max(data['curp'], 18)) {
+      error['curp'] = 'La CURP debe tener exactamente 18 caracteres';
+    }
+
     if (!this.validatorService.required(data['rfc'])) {
       error['rfc'] = this.errorService.required;
     } else if (!this.validatorService.min(data['rfc'], 12)) {
       error['rfc'] = this.errorService.min(12);
-      alert('La longitud de caracteres deL RFC es menor, deben ser 12');
     } else if (!this.validatorService.max(data['rfc'], 13)) {
       error['rfc'] = this.errorService.max(13);
-      alert('La longitud de caracteres deL RFC es mayor, deben ser 13');
+    }
+
+    if (!this.validatorService.required(data['telefono'])) {
+      error['telefono'] = this.errorService.required;
+    }
+
+    if (!this.validatorService.required(data['fecha_nacimiento'])) {
+      error['fecha_nacimiento'] = this.errorService.required;
     }
 
     if (!this.validatorService.required(data['edad'])) {
@@ -83,15 +99,10 @@ export class AdministradoresService {
       error['edad'] = 'La edad debe estar entre 1 y 100';
     }
 
-    if (!this.validatorService.required(data['telefono'])) {
-      error['telefono'] = this.errorService.required;
-    }
-
     if (!this.validatorService.required(data['ocupacion'])) {
       error['ocupacion'] = this.errorService.required;
     }
 
-    //Return arreglo
     return error;
   }
 }

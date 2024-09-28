@@ -4,43 +4,40 @@ import { MatRadioChange } from '@angular/material/radio';
 @Component({
   selector: 'app-registro-usuarios-screen',
   templateUrl: './registro-usuarios-screen.component.html',
-  styleUrls: ['./registro-usuarios-screen.component.scss']
+  styleUrls: ['./registro-usuarios-screen.component.scss'],
 })
-export class RegistroUsuariosScreenComponent implements OnInit{
-
-  public tipo:string = "registro-usuarios";
+export class RegistroUsuariosScreenComponent implements OnInit {
+  public tipo: string = 'registro-usuarios';
   //JSON para los usuarios (admin, maestros, alumnos)
-  public user:any ={};
+  public user: any = {};
 
   //Banderas para el tipo de usuario
-  public isAdmin:boolean = false;
-  public isAlumno:boolean = false;
-  public isMaestro:boolean = false;
+  public isAdmin: boolean = false;
+  public isAlumno: boolean = false;
+  public isMaestro: boolean = false;
   public editar: boolean = false;
-  public tipo_user:string = "";
+  public tipo_user: string = '';
 
-  constructor(){}
+  constructor() {}
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   public radioChange(event: MatRadioChange) {
-    if(event.value == "administrador"){
+    if (event.value == 'administrador') {
       this.isAdmin = true;
-      this.tipo_user = "administrador"
+      this.tipo_user = 'administrador';
       this.isAlumno = false;
       this.isMaestro = false;
-    }else if (event.value == "alumno"){
+    } else if (event.value == 'alumno') {
       this.isAdmin = false;
       this.isAlumno = true;
-      this.tipo_user = "alumno"
+      this.tipo_user = 'alumno';
       this.isMaestro = false;
-    }else if (event.value == "maestro"){
+    } else if (event.value == 'maestro') {
       this.isAdmin = false;
       this.isAlumno = false;
       this.isMaestro = true;
-      this.tipo_user = "maestro"
+      this.tipo_user = 'maestro';
     }
   }
 }
