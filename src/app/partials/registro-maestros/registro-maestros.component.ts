@@ -105,6 +105,7 @@ export class RegistroMaestrosComponent implements OnInit {
 
     //Validar la contraseña
     if (this.maestro.password == this.maestro.confirmar_password) {
+      alert('todos los campos son correctos');
     } else {
       alert('Las contraseñas no coinciden');
       this.maestro.password = '';

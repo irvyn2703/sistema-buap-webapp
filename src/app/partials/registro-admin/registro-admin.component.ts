@@ -64,7 +64,7 @@ export class RegistroAdminComponent implements OnInit {
 
     //Validar la contraseña
     if (this.admin.password == this.admin.confirmar_password) {
-      //Entra a registrar
+      alert('todos los campos son correctos');
     } else {
       alert('Las contraseñas no coinciden');
       this.admin.password = '';

@@ -69,7 +69,9 @@ export class RegistroAlumnosComponent implements OnInit {
       return;
     }
 
-    if (this.alumno.password !== this.alumno.confirmar_password) {
+    if (this.alumno.password == this.alumno.confirmar_password) {
+      alert('todos los campos son correctos');
+    } else {
       alert('Las contraseñas no coinciden');
       this.alumno.password = '';
       this.alumno.confirmar_password = '';
