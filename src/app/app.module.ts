@@ -22,6 +22,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { RegistroAdminComponent } from './partials/registro-admin/registro-admin.component';
 import { RegistroAlumnosComponent } from './partials/registro-alumnos/registro-alumnos.component';
 import { RegistroMaestrosComponent } from './partials/registro-maestros/registro-maestros.component';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -48,8 +49,9 @@ import { RegistroMaestrosComponent } from './partials/registro-maestros/registro
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    NgxMaskDirective,
   ],
-  providers: [],
+  providers: [provideNgxMask()],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

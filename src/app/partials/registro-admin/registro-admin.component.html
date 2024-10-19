@@ -98,7 +98,6 @@
           [(ngModel)]="admin.telefono"
           mask="(000) 000-0000"
           placeholder="Escribe teléfono"
-          type="number"
         />
       </mat-form-field>
       <div *ngIf="errors.telefono" class="invalid-feedback">
@@ -120,6 +119,7 @@
         <mat-label>Edad</mat-label>
         <input
           matInput
+          mask="00"
           [(ngModel)]="admin.edad"
           placeholder="Escribe la edad"
         />
