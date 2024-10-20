@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ValidatorService } from './tools/validator.service';
 import { ErrorsService } from './tools/errors.service';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
 
 @Injectable({
   providedIn: 'root',
@@ -16,8 +22,9 @@ export class AlumnoService {
   // Esquema para el alumno
   public esquemaAlumno() {
     return {
+      rol: '',
       clave: '',
-      name: '',
+      first_name: '',
       last_name: '',
       email: '',
       password: '',
@@ -41,8 +48,8 @@ export class AlumnoService {
       error['clave'] = this.errorService.required;
     }
 
-    if (!this.validatorService.required(data['name'])) {
-      error['name'] = this.errorService.required;
+    if (!this.validatorService.required(data['first_name'])) {
+      error['first_name'] = this.errorService.required;
     }
 
     if (!this.validatorService.required(data['last_name'])) {
@@ -104,5 +111,13 @@ export class AlumnoService {
     }
 
     return error;
+  }
+
+  public registrarAdmin(data: any): Observable<any> {
+    return this.http.post<any>(
+      `${environment.url_api}/alumno/`,
+      data,
+      httpOptions
+    );
   }
 }

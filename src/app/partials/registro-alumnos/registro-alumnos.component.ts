@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { AlumnoService } from 'src/app/services/alumno.service';
@@ -36,14 +37,17 @@ export class RegistroAlumnosComponent implements OnInit {
   public alumno: any = {};
   public errors: any = {};
   public editar: boolean = false;
+  public token: string = '';
 
   constructor(
     private alumnoService: AlumnoService,
-    private adapter: DateAdapter<any>
+    private adapter: DateAdapter<any>,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.adapter.setLocale('es-ES');
+    this.alumno = this.alumnoService.esquemaAlumno();
   }
 
   showPassword() {
@@ -70,7 +74,22 @@ export class RegistroAlumnosComponent implements OnInit {
     }
 
     if (this.alumno.password == this.alumno.confirmar_password) {
-      alert('todos los campos son correctos');
+      this.alumnoService.registrarAdmin(this.alumno).subscribe(
+        (response) => {
+          //Aquí va la ejecución del servicio si todo es correcto
+          alert('Usuario registrado correctamente');
+          console.log('Usuario registrado: ', response);
+          if (this.token != '') {
+            this.router.navigate(['home']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        },
+        (error) => {
+          //Aquí se ejecuta el error
+          alert('No se pudo registrar usuario');
+        }
+      );
     } else {
       alert('Las contraseñas no coinciden');
       this.alumno.password = '';
