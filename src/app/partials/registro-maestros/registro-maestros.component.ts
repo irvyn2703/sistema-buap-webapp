@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MaestrosService } from 'src/app/services/maestros.service';
 
 @Component({
@@ -18,6 +19,7 @@ export class RegistroMaestrosComponent implements OnInit {
   public maestro: any = {};
   public errors: any = {};
   public editar: boolean = false;
+  public token: string = '';
 
   public areas: any[] = [
     { value: '1', viewValue: 'Desarrollo Web' },
@@ -40,7 +42,10 @@ export class RegistroMaestrosComponent implements OnInit {
     { value: '10', nombre: 'Administración de S.O.' },
   ];
 
-  constructor(private maestrosService: MaestrosService) {
+  constructor(
+    private maestrosService: MaestrosService,
+    private router: Router
+  ) {
     this.maestro.materias_json = [];
   }
 
@@ -106,7 +111,22 @@ export class RegistroMaestrosComponent implements OnInit {
 
     //Validar la contraseña
     if (this.maestro.password == this.maestro.confirmar_password) {
-      alert('todos los campos son correctos');
+      this.maestrosService.registrarMaestro(this.maestro).subscribe(
+        (response) => {
+          //Aquí va la ejecución del servicio si todo es correcto
+          alert('Usuario registrado correctamente');
+          console.log('Usuario registrado: ', response);
+          if (this.token != '') {
+            this.router.navigate(['home']);
+          } else {
+            this.router.navigate(['/']);
+          }
+        },
+        (error) => {
+          //Aquí se ejecuta el error
+          alert('No se pudo registrar usuario');
+        }
+      );
     } else {
       alert('Las contraseñas no coinciden');
       this.maestro.password = '';

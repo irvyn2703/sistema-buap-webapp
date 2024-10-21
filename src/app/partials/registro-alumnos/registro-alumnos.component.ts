@@ -74,7 +74,7 @@ export class RegistroAlumnosComponent implements OnInit {
     }
 
     if (this.alumno.password == this.alumno.confirmar_password) {
-      this.alumnoService.registrarAdmin(this.alumno).subscribe(
+      this.alumnoService.registrarAlumno(this.alumno).subscribe(
         (response) => {
           //Aquí va la ejecución del servicio si todo es correcto
           alert('Usuario registrado correctamente');

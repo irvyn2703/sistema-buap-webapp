@@ -113,7 +113,7 @@ export class AlumnoService {
     return error;
   }
 
-  public registrarAdmin(data: any): Observable<any> {
+  public registrarAlumno(data: any): Observable<any> {
     return this.http.post<any>(
       `${environment.url_api}/alumno/`,
       data,
