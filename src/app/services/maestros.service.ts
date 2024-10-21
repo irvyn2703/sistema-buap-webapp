@@ -17,18 +17,18 @@ export class MaestrosService {
   public esquemaMaestro() {
     return {
       rol: '',
-      clave: '', // ID del trabajador
-      name: '', // Nombre del maestro
-      last_name: '', // Apellidos del maestro
+      clave: '',
+      first_name: '',
+      last_name: '',
       email: '',
       password: '',
       confirmar_password: '',
       telefono: '',
-      fecha_nacimiento: '', // Fecha de nacimiento
+      fecha_nacimiento: '',
       rfc: '',
-      cubiculo: '', // Cubículo del maestro
-      area_investigacion: '', // Área de investigación
-      materias_json: [], // Materias seleccionadas
+      cubiculo: '',
+      area_investigacion: '',
+      materias_json: [],
     };
   }
 
@@ -42,8 +42,8 @@ export class MaestrosService {
       error['clave'] = this.errorService.required;
     }
 
-    if (!this.validatorService.required(data['name'])) {
-      error['name'] = this.errorService.required;
+    if (!this.validatorService.required(data['first_name'])) {
+      error['first_name'] = this.errorService.required;
     }
 
     if (!this.validatorService.required(data['last_name'])) {

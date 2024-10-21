@@ -26,12 +26,12 @@
         <mat-label>Nombre</mat-label>
         <input
           matInput
-          [(ngModel)]="maestro.name"
+          [(ngModel)]="maestro.first_name"
           placeholder="Escribe tu nombre"
         />
       </mat-form-field>
-      <div *ngIf="errors.name" class="invalid-feedback">
-        {{ errors.name }}
+      <div *ngIf="errors.first_name" class="invalid-feedback">
+        {{ errors.first_name }}
       </div>
 
       <mat-form-field class="mat-input" appearance="outline">
