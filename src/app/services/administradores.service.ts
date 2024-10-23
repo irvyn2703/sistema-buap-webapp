@@ -21,7 +21,7 @@ export class AdministradoresService {
 
   public esquemaAdmin() {
     return {
-      rol: '',
+      rol: 'admin',
       clave_admin: '',
       first_name: '',
       last_name: '',

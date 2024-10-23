@@ -22,7 +22,7 @@ export class AlumnoService {
   // Esquema para el alumno
   public esquemaAlumno() {
     return {
-      rol: '',
+      rol: 'alumno',
       clave: '',
       first_name: '',
       last_name: '',

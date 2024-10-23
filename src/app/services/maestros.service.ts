@@ -22,7 +22,7 @@ export class MaestrosService {
   // Esquema para el maestro
   public esquemaMaestro() {
     return {
-      rol: '',
+      rol: 'maestro',
       clave: '',
       first_name: '',
       last_name: '',
