@@ -3,6 +3,9 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginScreenComponent } from './screens/login-screen/login-screen.component';
 import { RegistroUsuariosScreenComponent } from './screens/registro-usuarios-screen/registro-usuarios-screen.component';
 import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
+import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
+import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
+import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
 
 const routes: Routes = [
   //Pantalla principal del login
@@ -13,6 +16,9 @@ const routes: Routes = [
     pathMatch: 'full',
   },
   { path: 'home', component: HomeScreenComponent, pathMatch: 'full' },
+  { path: 'alumnos', component: AlumnosScreenComponent, pathMatch: 'full' },
+  { path: 'maestros', component: MaestrosScreenComponent, pathMatch: 'full' },
+  { path: 'administrador', component: AdminScreenComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -24,6 +24,11 @@ import { RegistroAlumnosComponent } from './partials/registro-alumnos/registro-a
 import { RegistroMaestrosComponent } from './partials/registro-maestros/registro-maestros.component';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { HomeScreenComponent } from './screens/home-screen/home-screen.component';
+import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
+import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
+import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,9 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
     RegistroAlumnosComponent,
     RegistroMaestrosComponent,
     HomeScreenComponent,
+    AdminScreenComponent,
+    AlumnosScreenComponent,
+    MaestrosScreenComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,6 +60,8 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
     MatDatepickerModule,
     MatNativeDateModule,
     NgxMaskDirective,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent],
