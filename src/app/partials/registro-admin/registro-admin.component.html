@@ -28,6 +28,7 @@
           matInput
           [(ngModel)]="admin.first_name"
           placeholder="Escribe nombre"
+          (keypress)="soloLetras($event)"
         />
       </mat-form-field>
       <div *ngIf="errors.first_name" class="invalid-feedback">
@@ -40,6 +41,7 @@
           matInput
           [(ngModel)]="admin.last_name"
           placeholder="Escribe apellidos"
+          (keypress)="soloLetras($event)"
         />
       </mat-form-field>
       <div *ngIf="errors.last_name" class="invalid-feedback">
@@ -104,14 +106,17 @@
         {{ errors.telefono }}
       </div>
 
-      <mat-form-field class="mat-input" appearance="outline">
+      <mat-form-field class="mat-input mat-hint-margin" appearance="outline">
         <mat-label>RFC</mat-label>
         <input
           matInput
           [(ngModel)]="admin.rfc"
           placeholder="Escribe RFC"
           style="text-transform: uppercase"
+          minlength="12"
+          maxlength="13"
         />
+        <mat-hint align="end"> {{ admin.rfc?.length || 0 }}/13 </mat-hint>
       </mat-form-field>
       <div *ngIf="errors.rfc" class="invalid-feedback">{{ errors.rfc }}</div>
 

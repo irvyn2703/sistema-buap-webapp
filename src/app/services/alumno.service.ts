@@ -92,6 +92,8 @@ export class AlumnoService {
 
     if (!this.validatorService.required(data['telefono'])) {
       error['telefono'] = this.errorService.required;
+    } else if (!this.validatorService.min(data['telefono'], 10)) {
+      error['telefono'] = this.errorService.min(10);
     }
 
     if (!this.validatorService.required(data['fecha_nacimiento'])) {
@@ -102,8 +104,8 @@ export class AlumnoService {
       error['edad'] = this.errorService.required;
     } else if (!this.validatorService.numeric(data['edad'])) {
       alert('El formato es solo números');
-    } else if (data['edad'] < 1 || data['edad'] > 100) {
-      error['edad'] = 'La edad debe estar entre 1 y 100';
+    } else if (data['edad'] < 18) {
+      error['edad'] = 'La edad debe ser mayor o igual a 18';
     }
 
     if (!this.validatorService.required(data['ocupacion'])) {

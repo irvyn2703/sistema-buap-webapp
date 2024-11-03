@@ -28,6 +28,7 @@
           matInput
           [(ngModel)]="alumno.first_name"
           placeholder="Escribe tu nombre"
+          (keypress)="soloLetras($event)"
         />
       </mat-form-field>
       <div *ngIf="errors.first_name" class="invalid-feedback">
@@ -40,6 +41,7 @@
           matInput
           [(ngModel)]="alumno.last_name"
           placeholder="Escribe tus apellidos"
+          (keypress)="soloLetras($event)"
         />
       </mat-form-field>
       <div *ngIf="errors.last_name" class="invalid-feedback">
@@ -116,7 +118,10 @@
           [(ngModel)]="alumno.curp"
           placeholder="Escribe tu CURP"
           style="text-transform: uppercase"
+          minlength="18"
+          maxlength="18"
         />
+        <mat-hint align="end"> {{ alumno.curp?.length || 0 }}/18 </mat-hint>
       </mat-form-field>
       <div *ngIf="errors.curp" class="invalid-feedback">{{ errors.curp }}</div>
 
@@ -127,7 +132,10 @@
           [(ngModel)]="alumno.rfc"
           placeholder="Escribe RFC"
           style="text-transform: uppercase"
+          minlength="12"
+          maxlength="13"
         />
+        <mat-hint align="end"> {{ alumno.rfc?.length || 0 }}/13 </mat-hint>
       </mat-form-field>
       <div *ngIf="errors.rfc" class="invalid-feedback">{{ errors.rfc }}</div>
 

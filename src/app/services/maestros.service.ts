@@ -84,6 +84,8 @@ export class MaestrosService {
 
     if (!this.validatorService.required(data['telefono'])) {
       error['telefono'] = this.errorService.required;
+    } else if (!this.validatorService.min(data['telefono'], 10)) {
+      error['telefono'] = this.errorService.min(10);
     }
 
     if (!this.validatorService.required(data['fecha_nacimiento'])) {
