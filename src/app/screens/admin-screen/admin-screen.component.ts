@@ -9,6 +9,7 @@ import { FacadeService } from 'src/app/services/facade.service';
 })
 export class AdminScreenComponent implements OnInit {
   public name_user: string = '';
+  public rol: string = '';
   public lista_admins: any[] = [];
 
   constructor(
@@ -18,6 +19,7 @@ export class AdminScreenComponent implements OnInit {
 
   ngOnInit(): void {
     this.name_user = this.facadeService.getUserCompleteName();
+    this.rol = this.facadeService.getUserGroup();
     //Lista de admins
     this.obtenerAdmins();
   }
