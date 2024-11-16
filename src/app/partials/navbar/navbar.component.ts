@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FacadeService } from 'src/app/services/facade.service';
 declare var $: any;
 
 @Component({
@@ -11,18 +12,45 @@ export class NavbarComponent implements OnInit {
   @Input() tipo: string = '';
   @Input() rol: string = '';
 
-  public editar: boolean = false;
   public token: string = '';
+  public editar: boolean = false;
 
-  constructor(private router: Router) {}
+  constructor(
+    private facadeService: FacadeService,
+    public activatedRoute: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit() {
+    this.rol = this.facadeService.getUserGroup();
+    console.log('Rol user: ', this.rol);
+    //Validar que haya inicio de sesión
+    //Obtengo el token del login
+    this.token = this.facadeService.getSessionToken();
+    //El primer if valida si existe un parámetro en la URL
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.editar = true;
+    }
+  }
 
   public goRegistro() {
     this.router.navigate(['registro-usuarios']);
   }
+  //Cerrar sesión
+  public logout() {
+    this.facadeService.logout().subscribe(
+      (response) => {
+        console.log('Entró');
 
-  public logout() {}
+        this.facadeService.destroyUser();
+        //Navega al login
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
 
   public clickNavLink(link: string) {
     this.router.navigate([link]);

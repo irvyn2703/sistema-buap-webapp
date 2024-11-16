@@ -102,3 +102,9 @@ table {
   font-size: 25px !important;
   text-align: center;
 }
+
+.disabled {
+  color: gray;
+  pointer-events: none;
+  cursor: not-allowed;
+}
