@@ -12,6 +12,7 @@
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>ID de administrador</mat-label>
         <input
+          (keypress)="soloNumeros($event)"
           matInput
           [(ngModel)]="admin.clave_admin"
           name="id"
@@ -137,6 +138,7 @@
           matInput
           [(ngModel)]="admin.ocupacion"
           placeholder="Escribe la ocupación"
+          (keypress)="soloLetras($event)"
         />
       </mat-form-field>
       <div *ngIf="errors.ocupacion" class="invalid-feedback">

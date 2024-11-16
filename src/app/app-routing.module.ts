@@ -17,6 +17,11 @@ const routes: Routes = [
   },
   { path: 'home', component: HomeScreenComponent, pathMatch: 'full' },
   { path: 'alumnos', component: AlumnosScreenComponent, pathMatch: 'full' },
+  {
+    path: 'registro-usuarios/:rol/:id',
+    component: RegistroUsuariosScreenComponent,
+    pathMatch: 'full',
+  },
   { path: 'maestros', component: MaestrosScreenComponent, pathMatch: 'full' },
   { path: 'administrador', component: AdminScreenComponent, pathMatch: 'full' },
 ];

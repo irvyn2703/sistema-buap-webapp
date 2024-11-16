@@ -1,5 +1,6 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { AlumnoService } from 'src/app/services/alumno.service';
@@ -38,16 +39,31 @@ export class RegistroAlumnosComponent implements OnInit {
   public errors: any = {};
   public editar: boolean = false;
   public token: string = '';
+  public idUser: Number = 0;
 
   constructor(
     private alumnoService: AlumnoService,
     private adapter: DateAdapter<any>,
-    private router: Router
+    private router: Router,
+    private location: Location,
+    public activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.adapter.setLocale('es-ES');
-    this.alumno = this.alumnoService.esquemaAlumno();
+    //El primer if valida si existe un parámetro en la URL
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.editar = true;
+      //Asignamos a nuestra variable global el valor del ID que viene por la URL
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log('ID User: ', this.idUser);
+      //Al iniciar la vista asignamos los datos del user
+      this.alumno = this.datos_user;
+    } else {
+      this.alumno = this.alumnoService.esquemaAlumno();
+    }
+    //Imprimir datos en consola
+    console.log('Alumno: ', this.alumno);
   }
 
   showPassword() {
@@ -60,9 +76,33 @@ export class RegistroAlumnosComponent implements OnInit {
     this.hide_2 = !this.hide_2;
   }
 
-  public regresar() {}
+  public regresar() {
+    this.location.back();
+  }
 
-  public actualizar() {}
+  public actualizar() {
+    //Validación
+    this.errors = [];
+
+    this.errors = this.alumnoService.validarAlumno(this.alumno, this.editar);
+
+    if (Object.keys(this.errors).length > 0) {
+      return false;
+    }
+    console.log('Pasó la validación');
+
+    this.alumnoService.editarAlumno(this.alumno).subscribe(
+      (response) => {
+        alert('Alumno editado correctamente');
+        console.log('Alumno editado: ', response);
+        //Si se editó, entonces mandar al home
+        this.router.navigate(['home']);
+      },
+      (error) => {
+        alert('No se pudo editar el alumno');
+      }
+    );
+  }
 
   public registrar() {
     console.log(this.alumno);
@@ -105,6 +145,14 @@ export class RegistroAlumnosComponent implements OnInit {
       !(charCode >= 97 && charCode <= 122) && // Letras minúsculas
       charCode !== 32 // Espacio
     ) {
+      event.preventDefault();
+    }
+  }
+
+  public soloNumeros(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    // Permitir solo números (0-9)
+    if (!(charCode >= 48 && charCode <= 57)) {
       event.preventDefault();
     }
   }

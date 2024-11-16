@@ -112,7 +112,9 @@ export class MaestrosScreenComponent implements OnInit {
     );
   }
 
-  public goEditar(userId: number) {}
+  public goEditar(idUser: number) {
+    this.router.navigate(['registro-usuarios/maestro/' + idUser]);
+  }
 
   public delete(userId: number) {}
 } //Fin de la clase

@@ -12,6 +12,7 @@
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>ID/Matricula</mat-label>
         <input
+          (keypress)="soloNumeros($event)"
           matInput
           [(ngModel)]="alumno.clave"
           name="id"
@@ -172,6 +173,7 @@
           matInput
           [(ngModel)]="alumno.ocupacion"
           placeholder="Escribe tu ocupacion"
+          (keypress)="soloLetras($event)"
         />
       </mat-form-field>
       <div *ngIf="errors.ocupacion" class="invalid-feedback">
@@ -180,7 +182,12 @@
 
       <div class="section-buttons">
         <button class="btn btn-danger" (click)="regresar()">Cancelar</button>
-        <button class="btn btn-primary" type="submit" (click)="registrar()">
+        <button
+          *ngIf="!editar"
+          class="btn btn-primary"
+          type="submit"
+          (click)="registrar()"
+        >
           Registrar
         </button>
         <button

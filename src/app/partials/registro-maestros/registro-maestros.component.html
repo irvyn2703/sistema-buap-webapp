@@ -12,6 +12,7 @@
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>ID de trabajador</mat-label>
         <input
+          (keypress)="soloNumeros($event)"
           matInput
           [(ngModel)]="maestro.clave"
           name="id"
@@ -192,7 +193,12 @@
 
       <div class="section-buttons">
         <button class="btn btn-danger" (click)="regresar()">Cancelar</button>
-        <button class="btn btn-primary" type="submit" (click)="registrar()">
+        <button
+          *ngIf="!editar"
+          class="btn btn-primary"
+          type="submit"
+          (click)="registrar()"
+        >
           Registrar
         </button>
         <button

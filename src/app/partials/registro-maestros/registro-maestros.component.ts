@@ -1,11 +1,30 @@
+import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { DateAdapter } from '@angular/material/core';
+import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MaestrosService } from 'src/app/services/maestros.service';
+
+export const MY_FORMATS = {
+  parse: {
+    dateInput: 'DD/MM/YYYY',
+  },
+  display: {
+    dateInput: 'DD/MM/YYYY',
+    monthYearLabel: 'MMMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY',
+  },
+};
 
 @Component({
   selector: 'app-registro-maestros',
   templateUrl: './registro-maestros.component.html',
   styleUrls: ['./registro-maestros.component.scss'],
+  providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'es-ES' }, // Configura el locale en español
+    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }, // Aplica los formatos personalizados
+  ],
 })
 export class RegistroMaestrosComponent implements OnInit {
   @Input() rol: string = '';
@@ -20,6 +39,7 @@ export class RegistroMaestrosComponent implements OnInit {
   public errors: any = {};
   public editar: boolean = false;
   public token: string = '';
+  public idUser: Number = 0;
 
   public areas: any[] = [
     { value: '1', viewValue: 'Desarrollo Web' },
@@ -44,14 +64,31 @@ export class RegistroMaestrosComponent implements OnInit {
 
   constructor(
     private maestrosService: MaestrosService,
-    private router: Router
+    private adapter: DateAdapter<any>,
+    private router: Router,
+    private location: Location,
+    public activatedRoute: ActivatedRoute
   ) {
     this.maestro.materias_json = [];
   }
 
   ngOnInit(): void {
-    this.maestro = this.maestrosService.esquemaMaestro();
-    this.maestro.materias_json = this.maestro.materias_json || [];
+    this.adapter.setLocale('es-ES');
+
+    //El primer if valida si existe un parámetro en la URL
+    if (this.activatedRoute.snapshot.params['id'] != undefined) {
+      this.editar = true;
+      //Asignamos a nuestra variable global el valor del ID que viene por la URL
+      this.idUser = this.activatedRoute.snapshot.params['id'];
+      console.log('ID User: ', this.idUser);
+      //Al iniciar la vista asignamos los datos del user
+      this.maestro = this.datos_user;
+    } else {
+      this.maestro = this.maestrosService.esquemaMaestro();
+      this.maestro.materias_json = this.maestro.materias_json || [];
+    }
+    //Imprimir datos en consola
+    console.log('Maestro: ', this.maestro);
   }
 
   public checkboxChange(event: any) {
@@ -69,8 +106,8 @@ export class RegistroMaestrosComponent implements OnInit {
     console.log('Array materias: ', this.maestro);
   }
 
-  public revisarSeleccion(nombre: string) {
-    return false;
+  public revisarSeleccion(nombre: string): boolean {
+    return this.maestro.materias_json.includes(nombre);
   }
 
   showPassword() {
@@ -93,9 +130,36 @@ export class RegistroMaestrosComponent implements OnInit {
     }
   }
 
-  public regresar() {}
+  public regresar() {
+    this.location.back();
+  }
 
-  public actualizar() {}
+  public actualizar() {
+    //Validación
+    this.errors = [];
+
+    this.errors = this.maestrosService.validarMaestro(
+      this.maestro,
+      this.editar
+    );
+
+    if (Object.keys(this.errors).length > 0) {
+      return false;
+    }
+    console.log('Pasó la validación');
+
+    this.maestrosService.editarMaestro(this.maestro).subscribe(
+      (response) => {
+        alert('Maestro editado correctamente');
+        console.log('Maestro editado: ', response);
+        //Si se editó, entonces mandar al home
+        this.router.navigate(['home']);
+      },
+      (error) => {
+        alert('No se pudo editar el maestro');
+      }
+    );
+  }
 
   public registrar() {
     console.log(this.maestro);
@@ -142,6 +206,14 @@ export class RegistroMaestrosComponent implements OnInit {
       !(charCode >= 97 && charCode <= 122) && // Letras minúsculas
       charCode !== 32 // Espacio
     ) {
+      event.preventDefault();
+    }
+  }
+
+  public soloNumeros(event: KeyboardEvent) {
+    const charCode = event.key.charCodeAt(0);
+    // Permitir solo números (0-9)
+    if (!(charCode >= 48 && charCode <= 57)) {
       event.preventDefault();
     }
   }
