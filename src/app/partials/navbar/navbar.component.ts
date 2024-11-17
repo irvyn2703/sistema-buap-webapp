@@ -33,8 +33,23 @@ export class NavbarComponent implements OnInit {
     }
   }
 
-  public goRegistro() {
-    this.router.navigate(['registro-usuarios']);
+  public goRegistro({ go }) {
+    switch (go) {
+      case 'alumnos':
+        this.router.navigate(['registro-usuarios']);
+
+        break;
+      case 'maestros':
+        this.router.navigate(['registro-usuarios']);
+
+        break;
+      case 'materias':
+        this.router.navigate(['registro-materias']);
+        break;
+      default:
+        alert('error en la navegación');
+        break;
+    }
   }
   //Cerrar sesión
   public logout() {

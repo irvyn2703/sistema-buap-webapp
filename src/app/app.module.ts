@@ -33,6 +33,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { EliminarUserModalComponent } from './modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
 import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
 import { NgChartsModule } from 'ng2-charts';
+import { RegistroMateriasComponent } from './partials/registro-materias/registro-materias.component';
+import { RegistroMateriasScreenComponent } from './screens/registro-materias-screen/registro-materias-screen.component';
+import { NgMaterialDatetimepickerModule } from 'ng-material-datetimepicker';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,8 @@ import { NgChartsModule } from 'ng2-charts';
     MaestrosScreenComponent,
     EliminarUserModalComponent,
     GraficasScreenComponent,
+    RegistroMateriasComponent,
+    RegistroMateriasScreenComponent,
   ],
   imports: [
     BrowserModule,
@@ -70,6 +75,7 @@ import { NgChartsModule } from 'ng2-charts';
     MatPaginatorModule,
     MatDialogModule,
     NgChartsModule,
+    NgMaterialDatetimepickerModule,
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent],

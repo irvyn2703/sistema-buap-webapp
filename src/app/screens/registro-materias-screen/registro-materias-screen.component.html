@@ -1,0 +1,23 @@
+<div class="wrapper">
+  <div class="section-registro">
+    <div class="header-registro">
+      <app-navbar [tipo]="tipo"></app-navbar>
+    </div>
+    <div class="body-registro">
+      <section class="rol-user">
+        <div class="container">
+          <div class="row mt-5" style="text-align: center">
+            <div class="form-group col-12">
+              <label class="title-user" for="tipo_usuario">{{ title }}</label>
+            </div>
+            <section class="forms-registro">
+              <section class="registro-admin">
+                <app-registro-materias></app-registro-materias>
+              </section>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
