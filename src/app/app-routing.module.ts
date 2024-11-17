@@ -6,6 +6,7 @@ import { HomeScreenComponent } from './screens/home-screen/home-screen.component
 import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.component';
 import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
 import { AdminScreenComponent } from './screens/admin-screen/admin-screen.component';
+import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
 
 const routes: Routes = [
   //Pantalla principal del login
@@ -24,6 +25,7 @@ const routes: Routes = [
   },
   { path: 'maestros', component: MaestrosScreenComponent, pathMatch: 'full' },
   { path: 'administrador', component: AdminScreenComponent, pathMatch: 'full' },
+  { path: 'graficas', component: GraficasScreenComponent, pathMatch: 'full' },
 ];
 
 @NgModule({

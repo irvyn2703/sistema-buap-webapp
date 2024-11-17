@@ -31,6 +31,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { EliminarUserModalComponent } from './modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
+import { GraficasScreenComponent } from './screens/graficas-screen/graficas-screen.component';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,7 @@ import { EliminarUserModalComponent } from './modals/eliminar-usuario-modal/elim
     AlumnosScreenComponent,
     MaestrosScreenComponent,
     EliminarUserModalComponent,
+    GraficasScreenComponent,
   ],
   imports: [
     BrowserModule,
@@ -66,6 +69,7 @@ import { EliminarUserModalComponent } from './modals/eliminar-usuario-modal/elim
     MatTableModule,
     MatPaginatorModule,
     MatDialogModule,
+    NgChartsModule,
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent],
