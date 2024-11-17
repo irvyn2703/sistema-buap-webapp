@@ -148,4 +148,18 @@ export class MaestrosService {
       headers: headers,
     });
   }
+
+  public eliminarMaestro(idUser: Number): Observable<any> {
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    });
+    return this.http.delete<any>(
+      `${environment.url_api}/maestros-edit/?id=${idUser}`,
+      {
+        headers: headers,
+      }
+    );
+  }
 }

@@ -90,7 +90,7 @@
               <i
                 class="bi bi-trash3-fill"
                 [class.disabled]="rol === 'maestro'"
-                (click)="rol == 'admin' && goEditar(element.id)"
+                (click)="rol == 'admin' && delete(element.id)"
               ></i>
             </td>
           </ng-container>

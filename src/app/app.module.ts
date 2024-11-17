@@ -29,6 +29,8 @@ import { AlumnosScreenComponent } from './screens/alumnos-screen/alumnos-screen.
 import { MaestrosScreenComponent } from './screens/maestros-screen/maestros-screen.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { EliminarUserModalComponent } from './modals/eliminar-usuario-modal/eliminar-usuario-modal.component';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AdminScreenComponent,
     AlumnosScreenComponent,
     MaestrosScreenComponent,
+    EliminarUserModalComponent,
   ],
   imports: [
     BrowserModule,
@@ -62,6 +65,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     NgxMaskDirective,
     MatTableModule,
     MatPaginatorModule,
+    MatDialogModule,
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent],
