@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MaestrosService } from 'src/app/services/maestros.service';
 
 @Component({
   selector: 'app-registro-materias',
@@ -25,13 +26,30 @@ export class RegistroMateriasComponent implements OnInit {
     { value: '3', viewValue: 'Ingeniería en Tecnologías de la Información' },
   ];
 
-  public profesores: any[] = [];
+  public maestros: any[] = [];
 
-  constructor() {
+  constructor(private maestrosService: MaestrosService) {
     this.materia.dias_json = [];
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getMaestros();
+  }
+
+  public getMaestros() {
+    this.maestrosService.obtenerListaMaestros().subscribe(
+      (response) => {
+        this.maestros = response.map((maestro: any) => ({
+          value: maestro.id,
+          viewValue: `${maestro.user.first_name} ${maestro.user.last_name}`,
+        }));
+        console.log(this.maestros);
+      },
+      (error) => {
+        alert('No se pudo obtener la lista');
+      }
+    );
+  }
 
   public soloLetras(event: KeyboardEvent) {
     const charCode = event.key.charCodeAt(0);

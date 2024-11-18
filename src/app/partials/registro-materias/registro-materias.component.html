@@ -90,6 +90,7 @@
             [(ngModel)]="materia.horaInicio"
             [max]="materia.horaFin"
             class="inputTime"
+            readonly
           />
           <ngx-material-timepicker #timepickerInicio></ngx-material-timepicker>
         </div>
@@ -102,6 +103,7 @@
             [disabled]="!materia.horaInicio"
             [min]="materia.horaInicio"
             class="inputTime"
+            readonly
           />
           <ngx-material-timepicker #timepickerFin></ngx-material-timepicker>
         </div>
@@ -141,17 +143,17 @@
 
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Profesor asignado</mat-label>
-        <mat-select [(ngModel)]="materia.profesor">
+        <mat-select [(ngModel)]="materia.maestro">
           <mat-option
-            *ngFor="let profesor of profesores"
-            [value]="profesor.viewValue"
+            *ngFor="let profesor of maestros"
+            [value]="profesor.value"
           >
             {{ profesor.viewValue }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <div *ngIf="errors.profesor" class="invalid-feedback">
-        {{ errors.profesor }}
+      <div *ngIf="errors.maestro" class="invalid-feedback">
+        {{ errors.maestro }}
       </div>
 
       <mat-form-field class="mat-input" appearance="outline">
