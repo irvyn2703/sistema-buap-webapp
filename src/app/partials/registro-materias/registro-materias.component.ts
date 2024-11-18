@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { MaestrosService } from 'src/app/services/maestros.service';
 import { MateriasService } from 'src/app/services/materias.service';
 
@@ -12,6 +13,7 @@ export class RegistroMateriasComponent implements OnInit {
   public errors: any = {};
   public materia: any = {};
   public editar: boolean = false;
+  public token: string = '';
 
   public dias: any[] = [
     { value: '1', nombre: 'Lunes' },
@@ -33,7 +35,8 @@ export class RegistroMateriasComponent implements OnInit {
   constructor(
     private maestrosService: MaestrosService,
     private materiaService: MateriasService,
-    private location: Location
+    private location: Location,
+    private router: Router
   ) {
     this.materia.dias_json = [];
   }
@@ -122,6 +125,23 @@ export class RegistroMateriasComponent implements OnInit {
       return;
     }
 
+    this.materiaService.registrarMateria(this.materia).subscribe(
+      (response) => {
+        //Aquí va la ejecución del servicio si todo es correcto
+        alert('Materia registrada correctamente');
+        console.log('Materia registrado: ', response);
+        if (this.token != '') {
+          this.router.navigate(['home']);
+        } else {
+          this.router.navigate(['home']);
+        }
+      },
+      (error) => {
+        //Aquí se ejecuta el error
+        alert('No se pudo registrar la materia');
+        console.log('No se pudo registrar la materia: ', error);
+      }
+    );
     console.log('materia validada correctamente', this.materia);
   }
 }
