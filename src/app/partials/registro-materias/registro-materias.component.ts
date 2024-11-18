@@ -1,5 +1,7 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { MaestrosService } from 'src/app/services/maestros.service';
+import { MateriasService } from 'src/app/services/materias.service';
 
 @Component({
   selector: 'app-registro-materias',
@@ -28,7 +30,11 @@ export class RegistroMateriasComponent implements OnInit {
 
   public maestros: any[] = [];
 
-  constructor(private maestrosService: MaestrosService) {
+  constructor(
+    private maestrosService: MaestrosService,
+    private materiaService: MateriasService,
+    private location: Location
+  ) {
     this.materia.dias_json = [];
   }
 
@@ -105,9 +111,17 @@ export class RegistroMateriasComponent implements OnInit {
 
   public actualizar() {}
 
-  public regresar() {}
+  public regresar() {
+    this.location.back();
+  }
 
   public registrar() {
-    console.log(this.materia);
+    this.errors = this.materiaService.validarMateria(this.materia);
+
+    if (Object.keys(this.errors).length > 0) {
+      return;
+    }
+
+    console.log('materia validada correctamente', this.materia);
   }
 }

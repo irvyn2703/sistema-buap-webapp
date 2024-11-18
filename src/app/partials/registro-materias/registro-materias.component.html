@@ -13,8 +13,8 @@
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>NRC</mat-label>
         <input
-          mask="000000"
           (keypress)="soloNumeros($event)"
+          maxlength="6"
           matInput
           [(ngModel)]="materia.nrc"
           name="nrc"
@@ -74,7 +74,7 @@
           </mat-checkbox>
         </div>
       </div>
-      <div *ngIf="errors.materias_json" class="invalid-feedback">
+      <div *ngIf="errors.dias_json" class="invalid-feedback">
         {{ errors.dias_json }}
       </div>
 
@@ -85,10 +85,10 @@
         <div class="default-time-example">
           <input
             [ngxTimepicker]="timepickerInicio"
-            value="{{ materia.horaInicio }}"
+            value="{{ materia.hora_inicio }}"
             placeholder="Inicio de la clase"
-            [(ngModel)]="materia.horaInicio"
-            [max]="materia.horaFin"
+            [(ngModel)]="materia.hora_inicio"
+            [max]="materia.hora_fin"
             class="inputTime"
             readonly
           />
@@ -97,11 +97,11 @@
         <div class="default-time-example">
           <input
             [ngxTimepicker]="timepickerFin"
-            value="{{ materia.horaFin }}"
+            value="{{ materia.hora_fin }}"
             placeholder="Fin de la clase"
-            [(ngModel)]="materia.horaFin"
-            [disabled]="!materia.horaInicio"
-            [min]="materia.horaInicio"
+            [(ngModel)]="materia.hora_fin"
+            [disabled]="!materia.hora_inicio"
+            [min]="materia.hora_inicio"
             class="inputTime"
             readonly
           />
