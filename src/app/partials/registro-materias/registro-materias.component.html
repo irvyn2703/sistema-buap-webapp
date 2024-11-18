@@ -78,21 +78,37 @@
         {{ errors.dias_json }}
       </div>
 
-      <label>Timepicker Only</label>
-      <input
-        time="false"
-        date="true"
-        mdc-datetime-picker
-        type="text"
-        id="date"
-        day-of-week-len="3"
-        placeholder="Date"
-        click-outside-to-close="true"
-        show-todays-date
-        today-btn="false"
-        [(ngModel)]="materia.horaInicio"
-        class="md-input"
-      />
+      <label class="title-materias" for="tipo_usuario"
+        >Selecciona el horario</label
+      >
+      <div class="horario">
+        <div class="default-time-example">
+          <input
+            [ngxTimepicker]="timepickerInicio"
+            value="{{ materia.horaInicio }}"
+            placeholder="Inicio de la clase"
+            [(ngModel)]="materia.horaInicio"
+            [max]="materia.horaFin"
+            class="inputTime"
+          />
+          <ngx-material-timepicker #timepickerInicio></ngx-material-timepicker>
+        </div>
+        <div class="default-time-example">
+          <input
+            [ngxTimepicker]="timepickerFin"
+            value="{{ materia.horaFin }}"
+            placeholder="Fin de la clase"
+            [(ngModel)]="materia.horaFin"
+            [disabled]="!materia.horaInicio"
+            [min]="materia.horaInicio"
+            class="inputTime"
+          />
+          <ngx-material-timepicker #timepickerFin></ngx-material-timepicker>
+        </div>
+      </div>
+      <div *ngIf="errors.hora" class="invalid-feedback">
+        {{ errors.hora }}
+      </div>
 
       <mat-form-field class="mat-input" appearance="outline">
         <mat-label>Salón</mat-label>

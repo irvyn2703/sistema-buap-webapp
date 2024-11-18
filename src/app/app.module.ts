@@ -35,7 +35,7 @@ import { GraficasScreenComponent } from './screens/graficas-screen/graficas-scre
 import { NgChartsModule } from 'ng2-charts';
 import { RegistroMateriasComponent } from './partials/registro-materias/registro-materias.component';
 import { RegistroMateriasScreenComponent } from './screens/registro-materias-screen/registro-materias-screen.component';
-import { NgMaterialDatetimepickerModule } from 'ng-material-datetimepicker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 @NgModule({
   declarations: [
@@ -75,7 +75,7 @@ import { NgMaterialDatetimepickerModule } from 'ng-material-datetimepicker';
     MatPaginatorModule,
     MatDialogModule,
     NgChartsModule,
-    NgMaterialDatetimepickerModule,
+    NgxMaterialTimepickerModule,
   ],
   providers: [provideNgxMask()],
   bootstrap: [AppComponent],

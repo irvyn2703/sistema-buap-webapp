@@ -31,6 +31,7 @@
     "ng2-charts": "^4.1.1",
     "ngx-cookie-service": "^16.1.0",
     "ngx-mask": "^16.4.2",
+    "ngx-material-timepicker": "^13.1.1",
     "rxjs": "~7.8.0",
     "sistema-buap-webapp": "file:",
     "tslib": "^2.3.0",

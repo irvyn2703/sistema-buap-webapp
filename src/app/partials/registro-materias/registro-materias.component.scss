@@ -119,3 +119,15 @@ mat-form-field {
   background-color: #017895 !important;
   border-color: #017895 !important;
 }
+
+.horario {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.inputTime {
+  padding: 1rem;
+  border-radius: 5px;
+}
