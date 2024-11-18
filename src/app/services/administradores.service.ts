@@ -126,10 +126,14 @@ export class AdministradoresService {
 
   //Obtener un solo usuario dependiendo su ID
   public getAdminByID(idUser: Number) {
-    return this.http.get<any>(
-      `${environment.url_api}/admin/?id=${idUser}`,
-      httpOptions
-    );
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    });
+    return this.http.get<any>(`${environment.url_api}/admin/?id=${idUser}`, {
+      headers: headers,
+    });
   }
 
   //Servicio para actualizar un usuario

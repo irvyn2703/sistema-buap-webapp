@@ -107,13 +107,10 @@ export class MateriasService {
   }
 
   public registrarMateria(data: any): Observable<any> {
-    var token = this.facadeService.getSessionToken();
-    var headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Bearer ' + token,
-    });
-    return this.http.post<any>(`${environment.url_api}/materia/`, data, {
-      headers: headers,
-    });
+    return this.http.post<any>(
+      `${environment.url_api}/materia/`,
+      data,
+      httpOptions
+    );
   }
 }

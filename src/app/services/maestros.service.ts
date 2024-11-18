@@ -131,10 +131,14 @@ export class MaestrosService {
 
   //Obtener un solo maestro dependiendo su ID
   public getMaestroByID(idUser: Number) {
-    return this.http.get<any>(
-      `${environment.url_api}/maestro/?id=${idUser}`,
-      httpOptions
-    );
+    var token = this.facadeService.getSessionToken();
+    var headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    });
+    return this.http.get<any>(`${environment.url_api}/maestro/?id=${idUser}`, {
+      headers: headers,
+    });
   }
 
   //Servicio para actualizar un usuario
