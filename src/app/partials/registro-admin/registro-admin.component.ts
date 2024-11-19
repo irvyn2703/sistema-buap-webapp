@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CustomModalComponent } from 'src/app/modals/custom-modal/custom-modal.component';
 import { AdministradoresService } from 'src/app/services/administradores.service';
 import { FacadeService } from 'src/app/services/facade.service';
 declare var $: any;
@@ -31,7 +33,8 @@ export class RegistroAdminComponent implements OnInit {
     private router: Router,
     private location: Location,
     public activatedRoute: ActivatedRoute,
-    private facadeService: FacadeService
+    private facadeService: FacadeService,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -127,12 +130,34 @@ export class RegistroAdminComponent implements OnInit {
     }
     console.log('Pasó la validación');
 
+    const dialogRef = this.dialog.open(CustomModalComponent, {
+      data: {
+        title: 'Editar maestro',
+        message:
+          'Estás a punto de editar este profesor. Esta acción no se puede deshacer.',
+        action: () => this.editarAdmin(),
+        buttonTitle: 'Editar',
+      },
+      height: '288px',
+      width: '328px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.iscomplete) {
+        console.log('Materia editada');
+        this.router.navigate(['home']);
+      } else {
+        alert('Materia no editada');
+        console.log('No se edito la materia');
+      }
+    });
+  }
+
+  public editarAdmin() {
     this.administradoresService.editarAdmin(this.admin).subscribe(
       (response) => {
         alert('Administrador editado correctamente');
         console.log('Admin editado: ', response);
-        //Si se editó, entonces mandar al home
-        this.router.navigate(['home']);
       },
       (error) => {
         alert('No se pudo editar el administrador');

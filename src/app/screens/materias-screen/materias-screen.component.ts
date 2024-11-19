@@ -142,7 +142,7 @@ export class MateriasScreenComponent implements OnInit {
         message:
           'Estás a punto de eliminar esta materia. Esta acción no se puede deshacer.',
         action: () => this.eliminarMateria(nrc),
-        buttonTitle: 'Eliminar materia',
+        buttonTitle: 'Eliminar',
       },
       height: '288px',
       width: '328px',

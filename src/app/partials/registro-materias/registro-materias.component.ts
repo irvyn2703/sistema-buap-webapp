@@ -1,6 +1,8 @@
 import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CustomModalComponent } from 'src/app/modals/custom-modal/custom-modal.component';
 import { MaestrosService } from 'src/app/services/maestros.service';
 import { MateriasService } from 'src/app/services/materias.service';
 
@@ -40,7 +42,8 @@ export class RegistroMateriasComponent implements OnInit {
     private materiaService: MateriasService,
     private location: Location,
     private router: Router,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    private dialog: MatDialog
   ) {
     this.materia.dias_json = [];
   }
@@ -151,6 +154,30 @@ export class RegistroMateriasComponent implements OnInit {
 
     console.log('Pasó la validación');
 
+    const dialogRef = this.dialog.open(CustomModalComponent, {
+      data: {
+        title: 'Editar materia',
+        message:
+          'Estás a punto de editar esta materia. Esta acción no se puede deshacer.',
+        action: () => this.editarMateria(),
+        buttonTitle: 'Editar',
+      },
+      height: '288px',
+      width: '328px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.iscomplete) {
+        console.log('Materia editada');
+        this.router.navigate(['home']);
+      } else {
+        alert('Materia no editada');
+        console.log('No se edito la materia');
+      }
+    });
+  }
+
+  public editarMateria() {
     this.materiaService.editarMateria(this.materia).subscribe(
       (response) => {
         alert('Materia editada correctamente');

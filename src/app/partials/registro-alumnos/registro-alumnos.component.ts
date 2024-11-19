@@ -4,6 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { AlumnoService } from 'src/app/services/alumno.service';
+import { CustomModalComponent } from 'src/app/modals/custom-modal/custom-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export const MY_FORMATS = {
   parse: {
@@ -46,7 +48,8 @@ export class RegistroAlumnosComponent implements OnInit {
     private adapter: DateAdapter<any>,
     private router: Router,
     private location: Location,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -91,12 +94,34 @@ export class RegistroAlumnosComponent implements OnInit {
     }
     console.log('Pasó la validación');
 
+    const dialogRef = this.dialog.open(CustomModalComponent, {
+      data: {
+        title: 'Editar maestro',
+        message:
+          'Estás a punto de editar este profesor. Esta acción no se puede deshacer.',
+        action: () => this.editarAlumno(),
+        buttonTitle: 'Editar',
+      },
+      height: '288px',
+      width: '328px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.iscomplete) {
+        console.log('Materia editada');
+        this.router.navigate(['home']);
+      } else {
+        alert('Materia no editada');
+        console.log('No se edito la materia');
+      }
+    });
+  }
+
+  public editarAlumno() {
     this.alumnoService.editarAlumno(this.alumno).subscribe(
       (response) => {
         alert('Alumno editado correctamente');
         console.log('Alumno editado: ', response);
-        //Si se editó, entonces mandar al home
-        this.router.navigate(['home']);
       },
       (error) => {
         alert('No se pudo editar el alumno');

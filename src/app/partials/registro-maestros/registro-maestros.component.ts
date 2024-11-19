@@ -2,7 +2,9 @@ import { Location } from '@angular/common';
 import { Component, Input, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
 import { MAT_DATE_LOCALE, MAT_DATE_FORMATS } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CustomModalComponent } from 'src/app/modals/custom-modal/custom-modal.component';
 import { MaestrosService } from 'src/app/services/maestros.service';
 
 export const MY_FORMATS = {
@@ -67,7 +69,8 @@ export class RegistroMaestrosComponent implements OnInit {
     private adapter: DateAdapter<any>,
     private router: Router,
     private location: Location,
-    public activatedRoute: ActivatedRoute
+    public activatedRoute: ActivatedRoute,
+    public dialog: MatDialog
   ) {
     this.maestro.materias_json = [];
   }
@@ -148,12 +151,34 @@ export class RegistroMaestrosComponent implements OnInit {
     }
     console.log('Pasó la validación');
 
+    const dialogRef = this.dialog.open(CustomModalComponent, {
+      data: {
+        title: 'Editar maestro',
+        message:
+          'Estás a punto de editar este profesor. Esta acción no se puede deshacer.',
+        action: () => this.editarMaestro(),
+        buttonTitle: 'Editar',
+      },
+      height: '288px',
+      width: '328px',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result.iscomplete) {
+        console.log('Materia editada');
+        this.router.navigate(['home']);
+      } else {
+        alert('Materia no editada');
+        console.log('No se edito la materia');
+      }
+    });
+  }
+
+  public editarMaestro() {
     this.maestrosService.editarMaestro(this.maestro).subscribe(
       (response) => {
         alert('Maestro editado correctamente');
         console.log('Maestro editado: ', response);
-        //Si se editó, entonces mandar al home
-        this.router.navigate(['home']);
       },
       (error) => {
         alert('No se pudo editar el maestro');
