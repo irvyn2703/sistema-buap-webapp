@@ -19,6 +19,7 @@
           [(ngModel)]="materia.nrc"
           name="nrc"
           placeholder="Escribe el NRC de la materia"
+          [disabled]="editar"
         />
       </mat-form-field>
       <div *ngIf="errors.nrc" class="invalid-feedback">

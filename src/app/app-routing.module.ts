@@ -29,6 +29,11 @@ const routes: Routes = [
   { path: 'administrador', component: AdminScreenComponent, pathMatch: 'full' },
   { path: 'graficas', component: GraficasScreenComponent, pathMatch: 'full' },
   {
+    path: 'registro-materias/:nrc',
+    component: RegistroMateriasScreenComponent,
+    pathMatch: 'full',
+  },
+  {
     path: 'registro-materias',
     component: RegistroMateriasScreenComponent,
     pathMatch: 'full',

@@ -1,6 +1,6 @@
 import { Location } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MaestrosService } from 'src/app/services/maestros.service';
 import { MateriasService } from 'src/app/services/materias.service';
 
@@ -10,10 +10,13 @@ import { MateriasService } from 'src/app/services/materias.service';
   styleUrls: ['./registro-materias.component.scss'],
 })
 export class RegistroMateriasComponent implements OnInit {
+  @Input() datos_materia: any = {};
+
   public errors: any = {};
   public materia: any = {};
   public editar: boolean = false;
   public token: string = '';
+  public nrc: number = 0;
 
   public dias: any[] = [
     { value: '1', nombre: 'Lunes' },
@@ -36,13 +39,37 @@ export class RegistroMateriasComponent implements OnInit {
     private maestrosService: MaestrosService,
     private materiaService: MateriasService,
     private location: Location,
-    private router: Router
+    private router: Router,
+    public activatedRoute: ActivatedRoute
   ) {
     this.materia.dias_json = [];
   }
 
   ngOnInit(): void {
     this.getMaestros();
+    if (this.activatedRoute.snapshot.params['nrc'] != undefined) {
+      this.editar = true;
+      //Asignamos a nuestra variable global el valor del ID que viene por la URL
+      this.nrc = this.activatedRoute.snapshot.params['nrc'];
+      console.log('nrc: ', this.nrc);
+
+      this.getMateriarByNRC();
+    } else {
+    }
+  }
+
+  public getMateriarByNRC() {
+    this.materiaService.getMateriaByNRC(this.nrc).subscribe(
+      (response) => {
+        this.materia = response;
+        this.materia.maestro = response.maestro_details.id;
+
+        console.log('Datos de la materia: ', this.materia);
+      },
+      (error) => {
+        alert('No se pudieron obtener los datos del usuario para editar');
+      }
+    );
   }
 
   public getMaestros() {
@@ -112,7 +139,30 @@ export class RegistroMateriasComponent implements OnInit {
     return this.materia.dias_json.includes(nombre);
   }
 
-  public actualizar() {}
+  public actualizar() {
+    //Validación
+    this.errors = [];
+
+    this.errors = this.materiaService.validarMateria(this.materia);
+
+    if (Object.keys(this.errors).length > 0) {
+      return false;
+    }
+
+    console.log('Pasó la validación');
+
+    this.materiaService.editarMateria(this.materia).subscribe(
+      (response) => {
+        alert('Materia editada correctamente');
+        console.log('Materia editado: ', response);
+        //Si se editó, entonces mandar al home
+        this.router.navigate(['home']);
+      },
+      (error) => {
+        alert('No se pudo editar el maestro');
+      }
+    );
+  }
 
   public regresar() {
     this.location.back();

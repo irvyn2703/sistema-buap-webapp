@@ -131,7 +131,9 @@ export class MateriasScreenComponent implements OnInit {
     );
   }
 
-  public goEditar(idUser: number) {}
+  public goEditar(idUser: number) {
+    this.router.navigate(['registro-materias/' + idUser]);
+  }
 
   public delete(nrc: number) {
     const dialogRef = this.dialog.open(CustomModalComponent, {
