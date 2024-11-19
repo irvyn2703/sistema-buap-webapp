@@ -26,9 +26,20 @@ export class AlumnosScreenComponent implements OnInit {
     'telefono',
     'rfc',
     'edad',
+  ];
+
+  displayedColumnsEdit: string[] = [
+    'id_trabajador',
+    'nombre',
+    'email',
+    'fecha_nacimiento',
+    'telefono',
+    'rfc',
+    'edad',
     'editar',
     'eliminar',
   ];
+
   dataSource = new MatTableDataSource<DatosAlumno>(
     this.lista_alumnos as DatosAlumno[]
   );
@@ -49,6 +60,9 @@ export class AlumnosScreenComponent implements OnInit {
   ngOnInit(): void {
     this.name_user = this.facadeService.getUserCompleteName();
     this.rol = this.facadeService.getUserGroup();
+
+    this.displayedColumns =
+      this.rol === 'admin' ? this.displayedColumnsEdit : this.displayedColumns;
 
     // Obtener alumnos
     this.obtenerAlumnos();

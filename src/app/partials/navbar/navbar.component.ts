@@ -75,22 +75,32 @@ export class NavbarComponent implements OnInit {
   }
   public activarLink(link: string) {
     if (link == 'alumnos') {
-      $('#principal').removeClass('active');
-      $('#maestro').removeClass('active');
       $('#alumno').addClass('active');
+      $('#principal').removeClass('active');
+      $('#maestro').removeClass('active');
+      $('#listaMateria').removeClass('active');
     } else if (link == 'maestros') {
-      $('#principal').removeClass('active');
-      $('#alumno').removeClass('active');
       $('#maestro').addClass('active');
+      $('#principal').removeClass('active');
+      $('#alumno').removeClass('active');
+      $('#listaMateria').removeClass('active');
     } else if (link == 'home') {
+      $('#principal').addClass('active');
       $('#alumno').removeClass('active');
       $('#maestro').removeClass('active');
-      $('#principal').addClass('active');
+      $('#listaMateria').removeClass('active');
     } else if (link == 'graficas') {
+      $('#graficas').addClass('active');
       $('#alumno').removeClass('active');
       $('#maestro').removeClass('active');
       $('#principal').removeClass('active');
-      $('#graficas').addClass('active');
+      $('#listaMateria').removeClass('active');
+    } else if (link == 'listaMateria') {
+      $('#listaMateria').addClass('active');
+      $('#graficas').removeClass('active');
+      $('#alumno').removeClass('active');
+      $('#maestro').removeClass('active');
+      $('#principal').removeClass('active');
     }
   }
 }

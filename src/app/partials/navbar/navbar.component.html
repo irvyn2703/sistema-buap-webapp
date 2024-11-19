@@ -46,8 +46,13 @@
                 >Maestros</a
               >
             </li>
-            <li class="nav-item">
-              <a class="nav-link">Lista de materias</a>
+            <li class="nav-item" *ngIf="rol != 'alumno'">
+              <a
+                class="nav-link"
+                id="listaMateria"
+                (click)="clickNavLink('listaMateria')"
+                >Lista de materias</a
+              >
             </li>
             <li class="nav-item">
               <a
