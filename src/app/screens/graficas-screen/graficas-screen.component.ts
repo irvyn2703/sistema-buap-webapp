@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { AdministradoresService } from 'src/app/services/administradores.service';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { GraficasService } from 'src/app/services/graficas.service';
 import DatalabelsPlugin from 'chartjs-plugin-datalabels';
 
 @Component({
@@ -8,100 +8,174 @@ import DatalabelsPlugin from 'chartjs-plugin-datalabels';
   styleUrls: ['./graficas-screen.component.scss'],
 })
 export class GraficasScreenComponent implements OnInit {
-  //Agregar chartjs-plugin-datalabels
-  //Variables
-  public total_user: any = {};
-  //Histograma
-  lineChartData = {
-    labels: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-    datasets: [
-      {
-        data: [89, 34, 43, 54, 28, 74, 93],
-        label: 'Registro de materias',
-        backgroundColor: '#F88406',
-      },
-    ],
-  };
+  // Variables
+  public total_user: number[] = [];
+  public materiasPorPrograma: number[] = [];
+  public materiasPorDia: number[] = [];
+  public colores: string[] = ['#1E3A8A', '#3B82F6', '#60A5FA'];
+  public fondo: string = '#2563EB';
+  public borde: string = '#60A5FA';
+
+  // Line Chart (Materias por día)
+  lineChartData: any = null;
   lineChartOption = {
-    responsive: false,
+    responsive: true,
+    plugins: {
+      datalabels: {
+        color: '#FFF',
+        font: {
+          size: 20,
+        },
+      },
+    },
   };
   lineChartPlugins = [DatalabelsPlugin];
 
-  //Barras
-  barChartData = {
-    labels: [
-      'Desarrollo Web',
-      'Minería de Datos',
-      'Redes',
-      'Móviles',
-      'Matemáticas',
-    ],
-    datasets: [
-      {
-        data: [34, 43, 54, 28, 74],
-        label: 'Registro de materias',
-        backgroundColor: [
-          '#F88406',
-          '#FCFF44',
-          '#82D3FB',
-          '#FB82F5',
-          '#2AD84A',
-        ],
-      },
-    ],
-  };
+  // Bar Chart (Materias por programa)
+  barChartData: any = null;
   barChartOption = {
-    responsive: false,
+    responsive: true,
+    plugins: {
+      datalabels: {
+        color: '#FFF',
+        font: {
+          size: 20,
+        },
+      },
+    },
   };
   barChartPlugins = [DatalabelsPlugin];
-  //Circular
-  pieChartData = {
-    labels: ['Administradores', 'Maestros', 'Alumnos'],
-    datasets: [
-      {
-        data: [89, 34, 43],
-        label: 'Registro de usuarios',
-        backgroundColor: ['#FCFF44', '#F1C8F2', '#31E731'],
-      },
-    ],
-  };
+
+  // Pie Chart
+  pieChartData: any = null;
   pieChartOption = {
-    responsive: false,
+    responsive: true,
+    plugins: {
+      datalabels: {
+        color: '#FFF',
+        font: {
+          size: 20,
+        },
+      },
+    },
   };
   pieChartPlugins = [DatalabelsPlugin];
 
-  // Doughnut
-  doughnutChartData = {
-    labels: ['Administradores', 'Maestros', 'Alumnos'],
-    datasets: [
-      {
-        data: [89, 34, 43],
-        label: 'Registro de usuarios',
-        backgroundColor: ['#F88406', '#FCFF44', '#31E7E7'],
-      },
-    ],
-  };
+  // Doughnut Chart
+  doughnutChartData: any = null;
   doughnutChartOption = {
-    responsive: false,
+    responsive: true,
+    plugins: {
+      datalabels: {
+        color: '#FFF',
+        font: {
+          size: 20,
+        },
+      },
+    },
   };
   doughnutChartPlugins = [DatalabelsPlugin];
 
-  constructor(private administradoresServices: AdministradoresService) {}
+  constructor(private graficasServices: GraficasService) {}
 
-  ngOnInit(): void {
-    this.obtenerTotalUsers();
-    console.log('Data: ', this.doughnutChartData);
+  async ngOnInit(): Promise<void> {
+    await this.cargarDatosYConfigurarGraficas();
   }
 
-  public obtenerTotalUsers() {
-    this.administradoresServices.getTotalUsuarios().subscribe(
-      (response) => {
-        this.total_user = response;
-        console.log('Total usuarios: ', this.total_user);
-      },
-      (error) => {
-        alert('No se pudo obtener el total de cada rol de usuarios');
-      }
-    );
+  private async cargarDatosYConfigurarGraficas(): Promise<void> {
+    try {
+      // Obtener datos de usuarios
+      const usuariosResponse = await this.obtenerTotalUsers();
+      let labelsPie = Object.keys(usuariosResponse);
+      this.total_user = Object.values(usuariosResponse);
+
+      // Configurar gráfica Doughnut
+      this.doughnutChartData = {
+        labels: labelsPie,
+        datasets: [
+          {
+            data: this.total_user,
+            label: 'Registro de usuarios',
+            backgroundColor: this.colores,
+          },
+        ],
+      };
+
+      // Configurar gráfica Pie
+      this.pieChartData = {
+        labels: labelsPie,
+        datasets: [
+          {
+            data: this.total_user,
+            label: 'Registro de usuarios',
+            backgroundColor: this.colores,
+          },
+        ],
+      };
+
+      const programasResponse = await this.obtenerMateriasPorPrograma();
+      let labelsBar = Object.keys(programasResponse).map((programa) =>
+        programa.match(/[A-Z]/g)?.join('')
+      );
+      this.materiasPorPrograma = Object.values(programasResponse);
+
+      this.barChartData = {
+        labels: labelsBar,
+        datasets: [
+          {
+            data: this.materiasPorPrograma,
+            label: 'Registro de materias por programa',
+            backgroundColor: this.colores,
+          },
+        ],
+      };
+
+      // Obtener y configurar gráfica de materias por día (Line Chart)
+      const diasResponse = await this.obtenerMateriasPorDia();
+      let labelsLine = Object.keys(diasResponse);
+      this.materiasPorDia = Object.values(diasResponse);
+
+      this.lineChartData = {
+        labels: labelsLine,
+        datasets: [
+          {
+            data: this.materiasPorDia,
+            label: 'Registro de materias por día',
+            backgroundColor: this.fondo,
+            borderColor: this.borde,
+            fill: false,
+          },
+        ],
+      };
+    } catch (error) {
+      alert('Error al cargar los datos para las gráficas.');
+    }
+  }
+
+  private obtenerTotalUsers(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.graficasServices.getTotalUsuarios().subscribe(
+        (response) => resolve(response),
+        (error) => reject(error)
+      );
+    });
+  }
+
+  private obtenerMateriasPorPrograma(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.graficasServices.getMateriasByPrograma().subscribe(
+        (response) => resolve(response),
+        (error) => reject(error)
+      );
+    });
+  }
+
+  private obtenerMateriasPorDia(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.graficasServices.getMateriasByDay().subscribe(
+        (response) => resolve(response),
+        (error) => reject(error)
+      );
+    });
   }
 }

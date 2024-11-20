@@ -23,10 +23,10 @@ export class RegistroMateriasComponent implements OnInit {
   public dias: any[] = [
     { value: '1', nombre: 'Lunes' },
     { value: '2', nombre: 'Martes' },
-    { value: '3', nombre: 'Miercoles' },
+    { value: '3', nombre: 'Miércoles' },
     { value: '4', nombre: 'Jueves' },
     { value: '5', nombre: 'Viernes' },
-    { value: '6', nombre: 'Sabado' },
+    { value: '6', nombre: 'Sábado' },
   ];
 
   public programas: any[] = [
